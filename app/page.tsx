@@ -6,6 +6,7 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Badge } from "@/components/ui/badge";
 
 const longText =
 	"t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t ";
@@ -32,6 +33,7 @@ export default function Home() {
 						<MiddleEllipsis>{longText2}</MiddleEllipsis>
 						<MiddleEllipsis>{longText3}</MiddleEllipsis>
 						<MiddleEllipsis>{longText4}</MiddleEllipsis>
+						<Badge>Badge</Badge>
 					</div>
 				</ResizablePanel>
 			</ResizablePanelGroup>
