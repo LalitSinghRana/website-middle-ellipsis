@@ -7,9 +7,10 @@ export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
 
 	useEffect(() => {
 		if (!nodeRef.current) return;
+		const element = nodeRef.current;
 
 		const cleanup = observeResize({
-			nodeRef,
+			element,
 			text: children,
 			middleEllipsis,
 			callback: setCentreEllipsisText,

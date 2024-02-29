@@ -59,25 +59,49 @@ const getStringWidth = (text: string, fontSize: number, fontFamily: string) => {
 	return width;
 };
 
+
+const getAvailableWidth = (element: HTMLElement) => {
+	const parent = element.parentElement;
+	if (!parent) return 0;
+
+	let availableWidth = getElementCssProperties(parent).width;
+	// const queue = Array.from(parent.children);
+	// let level = 0;
+
+	// while (queue.length > 0) {
+	// 	console.log('LALIT ~ getAvailableWidth ~ level:', level++);
+	// 	let n = queue.length;
+	// 	let targetNodeFound = false;
+
+	// 	while (n--) {
+	// 		const curNode = queue.shift();
+	// 		targetNodeFound = curNode === element;
+
+	// 		if (curNode instanceof HTMLElement) {
+	// 			const curNodeWidth = getElementCssProperties(curNode).width;
+	// 			availableWidth -= curNodeWidth;
+	// 			console.log('LALIT ~ getAvailableWidth ~ curNodeWidth:', {curNodeWidth, curNode, availableWidth});
+	// 			queue.push(...Array.from(curNode.children));
+	// 		}
+	// 	}
+
+	// 	if (targetNodeFound) break;
+	// }
+
+	return availableWidth;
+}
+
 export const truncateText = ({
 	text,
-	nodeRef,
+	element,
 	middleEllipsis,
 }: {
 	text: string;
-	nodeRef: React.RefObject<HTMLElement>;
+	element: HTMLElement;
 	middleEllipsis: string;
 }) => {
-	const curEle = nodeRef.current;
-	const offsetParent = curEle?.offsetParent;
-	/*
-		If current element or offsetParent are not available, we can't truncate text.
-		Return original text.
-	*/
-	if (!curEle || !offsetParent) return text;
-
-	const { fontSize, fontFamily } = getElementCssProperties(curEle);
-	const { width: availableWidth } = getElementCssProperties(offsetParent);
+	const { fontSize, fontFamily } = getElementCssProperties(element);
+	const availableWidth = getAvailableWidth(element);
 
 	const maxTextWidth = getStringWidth(text, fontSize, fontFamily);
 
@@ -98,8 +122,6 @@ export const truncateText = ({
 	let remainingWidth = availableWidth - middleEllipsisWidth;
 	let firstHalf = "";
 	let secondHalf = "";
-	let firstHalfWidth = 0;
-	let secondHalfWidth = 0;
 
 	for (let i = 0; i < Math.floor(textCharCount / 2); i++) {
 		const fhWidth = getCharacterWidth(text[i], fontSize, fontFamily);
@@ -107,7 +129,6 @@ export const truncateText = ({
 
 		if (remainingWidth < 0) break;
 		firstHalf += text[i];
-		firstHalfWidth += fhWidth;
 
 		const shWidth = getCharacterWidth(
 			text[textCharCount - i - 1],
@@ -118,16 +139,25 @@ export const truncateText = ({
 
 		if (remainingWidth < 0) break;
 		secondHalf = text[textCharCount - i - 1] + secondHalf;
-		secondHalfWidth += shWidth;
 	}
 
 	return firstHalf + middleEllipsis + secondHalf;
 };
 
-export const observeResize = ({ nodeRef, text, middleEllipsis, callback }) => {
+export const observeResize = ({ 
+	element, 
+	text, 
+	middleEllipsis, 
+	callback 
+} : {
+	text: string,
+	element: HTMLElement,
+	middleEllipsis: string,
+	callback: (truncatedText: string) => void,
+}) => {
 	const observer = new ResizeObserver(() => {
 		const truncatedText = truncateText({
-			nodeRef,
+			element,
 			text,
 			middleEllipsis,
 		});
@@ -135,7 +165,7 @@ export const observeResize = ({ nodeRef, text, middleEllipsis, callback }) => {
 		callback(truncatedText);
 	});
 
-	observer.observe(nodeRef.current);
+	observer.observe(element);
 
 	return () => observer.disconnect();
 };
