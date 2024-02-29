@@ -19,7 +19,7 @@ export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
 	}, [children, middleEllipsis]);
 
 	return (
-		<span ref={nodeRef} style={{ whiteSpace: "nowrap", outline: "1px solid" }}>
+		<span ref={nodeRef}>
 			{centreEllipsisText}
 		</span>
 	);

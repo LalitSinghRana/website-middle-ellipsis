@@ -22,18 +22,39 @@ export default function Home() {
 				<ResizableHandle />
 				<ResizablePanel>
 					<div className="flex flex-col gap-4 w-full h-full relative p-4">
-						<MiddleEllipsis>
-							a quick brown fox jumps over a lazy dog.
-						</MiddleEllipsis>
-						<MiddleEllipsis>
-							"WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE DiFfErEnT."
-						</MiddleEllipsis>
+						<div className="flex flex-col w-full whitespace-nowrap border-[2px] border-solid p-2">
+							<MiddleEllipsis>
+								Ellipsis text in the middle automatically when component resize.
+							</MiddleEllipsis>
+						</div>
+						{/* <div className="flex flex-col w-full">
+							<MiddleEllipsis>
+								WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE
+								DiFfErEnT.
+							</MiddleEllipsis>
+						</div>
 						<span className={cn("flex flex-col w-full", robotoMono.className)}>
 							<MiddleEllipsis>
 								Works with different font families too. Mono, Sarif, etc.
 							</MiddleEllipsis>
 						</span>
+						<div className="flex flex-col w-full">
+							<Badge>
+								<MiddleEllipsis>
+									WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE
+									DiFfErEnT.
+								</MiddleEllipsis>
+							</Badge>
+						</div>
 						<Badge>Badge</Badge>
+						<div className="flex gap-2 w-full">
+							<span className="flex w-full">
+								Ellipsis text in the middle automatically when component resize.
+							</span>
+							<span className="flex w-full">
+								Ellipsis text in the middle automatically when component resize.
+							</span>
+						</div> */}
 					</div>
 				</ResizablePanel>
 			</ResizablePanelGroup>

@@ -93,11 +93,9 @@ export const truncateText = ({
 		fontSize,
 		fontFamily,
 	);
-	const emptySpaceWidth = 0;
 	const textCharCount = text.length;
 
-	let remainingWidth =
-		availableWidth - middleEllipsisWidth - emptySpaceWidth * 2;
+	let remainingWidth = availableWidth - middleEllipsisWidth;
 	let firstHalf = "";
 	let secondHalf = "";
 	let firstHalfWidth = 0;
