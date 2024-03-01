@@ -21,37 +21,42 @@ export default function Home() {
 				</ResizablePanel>
 				<ResizableHandle />
 				<ResizablePanel>
-					<div className="flex flex-col gap-4 w-full h-full relative p-4">
-						<div className="flex flex-col w-full whitespace-nowrap border-[2px] border-solid p-2">
+					<div className="flex flex-col gap-4 w-full h-full p-4">
+						<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2">
 							<MiddleEllipsis>
 								Ellipsis text in the middle automatically when component resize.
 							</MiddleEllipsis>
 						</div>
 						<div className="w-full px-16 bg-primary">
-							<div className="flex flex-col w-full whitespace-nowrap border-[2px] border-solid p-2 bg-secondary">
+							<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2 bg-secondary">
 								<MiddleEllipsis>
 									Works even when the grandparent container has padding and margin
 								</MiddleEllipsis>
 							</div>
 						</div>
-						<div className="flex flex-col w-full whitespace-nowrap border-[2px] border-solid p-2">
+						<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2">
 							<MiddleEllipsis>
 								WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE DiFfErEnT.
 							</MiddleEllipsis>
 						</div>
-						<span className={cn("flex flex-col w-full whitespace-nowrap border-[2px] border-solid p-2", robotoMono.className)}>
+						<span className={cn("flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2", robotoMono.className)}>
 							<MiddleEllipsis>
 								Works with different font families too. Mono, Serifs, etc.
 							</MiddleEllipsis>
 						</span>
-						<div className="flex flex-col w-full">
-							<Badge className="flex flex-col w-max whitespace-nowrap border-[2px] border-solid p-2">
+						<div className="flex flex-col w-full relative">
+							<Badge variant='default'>
 								<MiddleEllipsis>
-									Works with different font families too. Mono, Serifs, etc.
+									Badge inside text. Does this works. Does this works.
 								</MiddleEllipsis>
 							</Badge>
+							{/* <div className="w-max whitespace-nowrap border-[2px] border-solid p-2">
+								<MiddleEllipsis>
+									Badge inside text. Does this works. Does this works.
+								</MiddleEllipsis>
+							</div> */}
 						</div>
-						<Badge>
+						{/* <Badge>
 							<MiddleEllipsis>
 									Works with different font families too. Mono, Serifs, etc.
 								</MiddleEllipsis>
@@ -63,7 +68,7 @@ export default function Home() {
 							<span className="flex w-full">
 								Ellipsis text in the middle automatically when component resize.
 							</span>
-						</div>
+						</div> */}
 					</div>
 				</ResizablePanel>
 			</ResizablePanelGroup>

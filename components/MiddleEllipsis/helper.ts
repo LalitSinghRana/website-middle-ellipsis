@@ -15,35 +15,13 @@ const getCharacterWidth = (
 	return characterWidth * (fontSize / 16) * 1; // 2px for 'normal' letter spacing
 };
 
-const getElementCssProperties = (element: Element) => {
+const getElementFontProperties = (element: Element) => {
 	const elementStyleObj = window.getComputedStyle(element);
 
-	const paddingWidthX =
-		parseInt(elementStyleObj.paddingLeft, 10) +
-		parseInt(elementStyleObj.paddingRight, 10);
-	const paddingWidthY =
-		parseInt(elementStyleObj.paddingTop, 10) +
-		parseInt(elementStyleObj.paddingBottom, 10);
-	const marginWidthX =
-		parseInt(elementStyleObj.marginLeft, 10) +
-		parseInt(elementStyleObj.marginRight, 10);
-	const borderWidthX =
-		parseInt(elementStyleObj.borderLeftWidth, 10) +
-		parseInt(elementStyleObj.borderRightWidth, 10);
-
-	// `nodeStyleObj.width` return width that includes padding. So we have to subtract padding to get available width.
-	const width = parseInt(elementStyleObj.width, 10) - paddingWidthX;
-	const height = parseInt(elementStyleObj.height, 10) - paddingWidthY;
-
-	const fontSize = parseInt(elementStyleObj.fontSize, 10);
+	const fontSize = parseFloat(elementStyleObj.fontSize);
 	const fontFamily = elementStyleObj.fontFamily.split(",")[0];
 
 	return {
-		width,
-		height,
-		paddingWidthX,
-		marginWidthX,
-		borderWidthX,
 		fontSize,
 		fontFamily,
 	};
@@ -59,36 +37,51 @@ const getStringWidth = (text: string, fontSize: number, fontFamily: string) => {
 	return width;
 };
 
+const getElementTotalWidth = (element: HTMLElement) => {
+	const style = window.getComputedStyle(element);
+	const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+
+	return element.offsetWidth + margin;
+}
+
+const getPaddingAndBorderWidth = (element: HTMLElement) => {
+	const style = window.getComputedStyle(element);
+	const borderXWidth = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+	const paddingXWidth = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+
+	return paddingXWidth + borderXWidth;
+}
+
+const getSiblingWidth = (element: HTMLElement): number => {
+	let width = 0;
+	if (!element.parentNode) return width;
+
+	const children = Array.from(element.parentNode.children) as HTMLElement[];
+
+	for (const child of children) {
+		if (child === element) {
+			width += getPaddingAndBorderWidth(element);
+		} else {
+			width += getElementTotalWidth(child);
+		}
+	}
+
+	return width;
+}
 
 const getAvailableWidth = (element: HTMLElement) => {
-	const parent = element.parentElement;
-	if (!parent) return 0;
+	const offsetParentElement = element.offsetParent as HTMLElement;
+	if (!offsetParentElement) return 0;
 
-	let availableWidth = getElementCssProperties(parent).width;
-	// const queue = Array.from(parent.children);
-	// let level = 0;
+	let takenWidth = 0;
+	let tempElement = element;
+	
+	while (tempElement !== offsetParentElement) {
+		takenWidth += getSiblingWidth(tempElement);
+		tempElement = tempElement.parentElement as HTMLElement;
+	}
 
-	// while (queue.length > 0) {
-	// 	console.log('LALIT ~ getAvailableWidth ~ level:', level++);
-	// 	let n = queue.length;
-	// 	let targetNodeFound = false;
-
-	// 	while (n--) {
-	// 		const curNode = queue.shift();
-	// 		targetNodeFound = curNode === element;
-
-	// 		if (curNode instanceof HTMLElement) {
-	// 			const curNodeWidth = getElementCssProperties(curNode).width;
-	// 			availableWidth -= curNodeWidth;
-	// 			console.log('LALIT ~ getAvailableWidth ~ curNodeWidth:', {curNodeWidth, curNode, availableWidth});
-	// 			queue.push(...Array.from(curNode.children));
-	// 		}
-	// 	}
-
-	// 	if (targetNodeFound) break;
-	// }
-
-	return availableWidth;
+	return offsetParentElement.offsetWidth - getPaddingAndBorderWidth(offsetParentElement) - takenWidth;
 }
 
 export const truncateText = ({
@@ -100,7 +93,7 @@ export const truncateText = ({
 	element: HTMLElement;
 	middleEllipsis: string;
 }) => {
-	const { fontSize, fontFamily } = getElementCssProperties(element);
+	const { fontSize, fontFamily } = getElementFontProperties(element);
 	const availableWidth = getAvailableWidth(element);
 
 	const maxTextWidth = getStringWidth(text, fontSize, fontFamily);
@@ -155,6 +148,8 @@ export const observeResize = ({
 	middleEllipsis: string,
 	callback: (truncatedText: string) => void,
 }) => {
+	if (!element.offsetParent) return () => {};
+
 	const observer = new ResizeObserver(() => {
 		const truncatedText = truncateText({
 			element,
@@ -165,7 +160,7 @@ export const observeResize = ({
 		callback(truncatedText);
 	});
 
-	observer.observe(element);
+	observer.observe(element.offsetParent);
 
 	return () => observer.disconnect();
 };
