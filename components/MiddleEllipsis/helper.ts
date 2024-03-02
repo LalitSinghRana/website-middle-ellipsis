@@ -14,15 +14,30 @@ const getCharacterWidth = (
 	return characterWidth * (fontSize / 16) * 1; // 2px for 'normal' letter spacing
 };
 
-const getElementFontProperties = (element: Element) => {
-	const elementStyleObj = window.getComputedStyle(element);
+const getElementProperties = (element: Element) => {
+	const style = window.getComputedStyle(element);
 
-	const fontSize = parseFloat(elementStyleObj.fontSize);
-	const fontFamily = elementStyleObj.fontFamily.split(",")[0];
+	const fontSize = parseFloat(style.fontSize);
+	const fontFamily = style.fontFamily.split(",")[0];
+
+	const marginXWidth =
+		parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+	const borderXWidth =
+		parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+	const paddingXWidth =
+		parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+
+	const width = parseFloat(style.width);
+	const totalWidth = width + marginXWidth;
+	const innerWidth = width - paddingXWidth - borderXWidth;
 
 	return {
 		fontSize,
 		fontFamily,
+		totalWidth,
+		borderXWidth,
+		paddingXWidth,
+		innerWidth,
 	};
 };
 
@@ -36,34 +51,18 @@ const getStringWidth = (text: string, fontSize: number, fontFamily: string) => {
 	return width;
 };
 
-const getElementTotalWidth = (element: HTMLElement) => {
-	const style = window.getComputedStyle(element);
-	const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-
-	return element.offsetWidth + margin;
-};
-
-const getPaddingAndBorderWidth = (element: HTMLElement) => {
-	const style = window.getComputedStyle(element);
-	const borderXWidth =
-		parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
-	const paddingXWidth =
-		parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-
-	return paddingXWidth + borderXWidth;
-};
-
-const getSiblingWidth = (element: HTMLElement): number => {
+const getSiblingWidth = (element: Element): number => {
 	let width = 0;
 	if (!element.parentNode) return width;
 
-	const children = Array.from(element.parentNode.children) as HTMLElement[];
+	const children = Array.from(element.parentNode.children) as Element[];
 
 	for (const child of children) {
 		if (child === element) {
-			width += getPaddingAndBorderWidth(element);
+			const { paddingXWidth, borderXWidth } = getElementProperties(element);
+			width += paddingXWidth + borderXWidth;
 		} else {
-			width += getElementTotalWidth(child);
+			width += getElementProperties(child).totalWidth;
 		}
 	}
 
@@ -71,7 +70,7 @@ const getSiblingWidth = (element: HTMLElement): number => {
 };
 
 const getAvailableWidth = (element: HTMLElement) => {
-	const offsetParentElement = element.offsetParent as HTMLElement;
+	const offsetParentElement = element.offsetParent;
 	if (!offsetParentElement) return 0;
 
 	let takenWidth = 0;
@@ -79,14 +78,12 @@ const getAvailableWidth = (element: HTMLElement) => {
 
 	while (tempElement !== offsetParentElement) {
 		takenWidth += getSiblingWidth(tempElement);
-		tempElement = tempElement.parentElement as HTMLElement;
+
+		if (!tempElement.parentElement) break;
+		tempElement = tempElement.parentElement;
 	}
 
-	return (
-		offsetParentElement.offsetWidth -
-		getPaddingAndBorderWidth(offsetParentElement) -
-		takenWidth
-	);
+	return getElementProperties(offsetParentElement).innerWidth - takenWidth;
 };
 
 export const truncateText = ({
@@ -98,7 +95,7 @@ export const truncateText = ({
 	element: HTMLElement;
 	middleEllipsis: string;
 }) => {
-	const { fontSize, fontFamily } = getElementFontProperties(element);
+	const { fontSize, fontFamily } = getElementProperties(element);
 	const availableWidth = getAvailableWidth(element);
 
 	const maxTextWidth = getStringWidth(text, fontSize, fontFamily);

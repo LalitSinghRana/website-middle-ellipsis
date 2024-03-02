@@ -8,7 +8,10 @@ import {
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { Send, Clapperboard } from "lucide-react";
+import { ButtonLoading } from "@/components/ButtonLoading";
 
 const robotoMono = Roboto_Mono({ subsets: ["latin"] });
 
@@ -27,6 +30,7 @@ export default function Home() {
 								Ellipsis text in the middle automatically when component resize.
 							</MiddleEllipsis>
 						</div>
+						<Separator className="my-4" />
 						<div className="w-full px-16 bg-primary">
 							<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2 bg-secondary">
 								<MiddleEllipsis>
@@ -64,6 +68,14 @@ export default function Home() {
 							</Badge>
 						</div>
 						<div className="flex flex-col w-full relative">
+							<Badge variant="default">
+								<ButtonLoading />
+								<MiddleEllipsis>
+									Works even when parent element depend on the child for width.
+								</MiddleEllipsis>
+							</Badge>
+						</div>
+						{/* <div className="flex flex-col w-full relative">
 							<Badge variant="outline">
 								<Badge variant="destructive">
 									<Badge variant="secondary">
@@ -75,7 +87,7 @@ export default function Home() {
 									</Badge>
 								</Badge>
 							</Badge>
-						</div>
+						</div> */}
 						{/* <div className="w-max whitespace-nowrap border-[2px] border-solid p-2">
 								<MiddleEllipsis>
 									Badge inside text. Does this works. Does this works.
