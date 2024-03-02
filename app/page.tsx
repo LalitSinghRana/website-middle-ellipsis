@@ -17,7 +17,7 @@ export default function Home() {
 		<div className="flex w-screen h-screen justify-center items-center">
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel>
-					<span id="myElement">One</span>
+					<span>One</span>
 				</ResizablePanel>
 				<ResizableHandle />
 				<ResizablePanel>
