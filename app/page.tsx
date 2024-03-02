@@ -51,10 +51,15 @@ export default function Home() {
 								Works with different font families too. Mono, Serifs, etc.
 							</MiddleEllipsis>
 						</div>
+						<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2">
+							<MiddleEllipsis className="text-3xl">
+								And with different font sizes.
+							</MiddleEllipsis>
+						</div>
 						<div className="flex flex-col w-full relative">
 							<Badge variant="default">
 								<MiddleEllipsis>
-									Badge inside text. Does this works. Does this works.
+									Works even when parent element depend on the child for width.
 								</MiddleEllipsis>
 							</Badge>
 						</div>
@@ -65,7 +70,6 @@ export default function Home() {
 										<Badge variant="default">
 											<MiddleEllipsis>
 												Works even when nested deep inside multiple elements
-												which all depend on their child for width.
 											</MiddleEllipsis>
 										</Badge>
 									</Badge>

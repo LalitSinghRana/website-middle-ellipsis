@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { observeResize } from "./helper";
 
-export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
+export const MiddleEllipsis = ({
+	children = "",
+	middleEllipsis = "...",
+	...rest
+}) => {
 	const nodeRef = useRef(null);
 
 	useEffect(() => {
@@ -17,5 +21,9 @@ export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
 		return cleanup;
 	}, [children, middleEllipsis]);
 
-	return <span ref={nodeRef}>{"\u00A0"}</span>;
+	return (
+		<span ref={nodeRef} {...rest}>
+			{"\u00A0"}
+		</span>
+	);
 };
