@@ -1,4 +1,3 @@
-import React from "react";
 import { fontFamilyWidthMap } from "./fontFamilyWidthMap";
 
 const getCharacterWidth = (
@@ -42,15 +41,17 @@ const getElementTotalWidth = (element: HTMLElement) => {
 	const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
 
 	return element.offsetWidth + margin;
-}
+};
 
 const getPaddingAndBorderWidth = (element: HTMLElement) => {
 	const style = window.getComputedStyle(element);
-	const borderXWidth = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
-	const paddingXWidth = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+	const borderXWidth =
+		parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+	const paddingXWidth =
+		parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
 
 	return paddingXWidth + borderXWidth;
-}
+};
 
 const getSiblingWidth = (element: HTMLElement): number => {
 	let width = 0;
@@ -67,7 +68,7 @@ const getSiblingWidth = (element: HTMLElement): number => {
 	}
 
 	return width;
-}
+};
 
 const getAvailableWidth = (element: HTMLElement) => {
 	const offsetParentElement = element.offsetParent as HTMLElement;
@@ -75,14 +76,18 @@ const getAvailableWidth = (element: HTMLElement) => {
 
 	let takenWidth = 0;
 	let tempElement = element;
-	
+
 	while (tempElement !== offsetParentElement) {
 		takenWidth += getSiblingWidth(tempElement);
 		tempElement = tempElement.parentElement as HTMLElement;
 	}
 
-	return offsetParentElement.offsetWidth - getPaddingAndBorderWidth(offsetParentElement) - takenWidth;
-}
+	return (
+		offsetParentElement.offsetWidth -
+		getPaddingAndBorderWidth(offsetParentElement) -
+		takenWidth
+	);
+};
 
 export const truncateText = ({
 	text,
@@ -137,16 +142,14 @@ export const truncateText = ({
 	return firstHalf + middleEllipsis + secondHalf;
 };
 
-export const observeResize = ({ 
-	element, 
-	text, 
-	middleEllipsis, 
-	callback 
-} : {
-	text: string,
-	element: HTMLElement,
-	middleEllipsis: string,
-	callback: (truncatedText: string) => void,
+export const observeResize = ({
+	element,
+	text,
+	middleEllipsis,
+}: {
+	text: string;
+	element: HTMLElement;
+	middleEllipsis: string;
 }) => {
 	if (!element.offsetParent) return () => {};
 
@@ -157,7 +160,8 @@ export const observeResize = ({
 			middleEllipsis,
 		});
 
-		callback(truncatedText);
+		// Directly update the text in the DOM
+		element.textContent = truncatedText;
 	});
 
 	observer.observe(element.offsetParent);

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { observeResize } from "./helper";
 
 export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
 	const nodeRef = useRef(null);
-	const [centreEllipsisText, setCentreEllipsisText] = useState("\u00A0");
 
 	useEffect(() => {
 		if (!nodeRef.current) return;
@@ -13,15 +12,10 @@ export const MiddleEllipsis = ({ children = "", middleEllipsis = "..." }) => {
 			element,
 			text: children,
 			middleEllipsis,
-			callback: setCentreEllipsisText,
 		});
 
 		return cleanup;
 	}, [children, middleEllipsis]);
 
-	return (
-		<span ref={nodeRef}>
-			{centreEllipsisText}
-		</span>
-	);
+	return <span ref={nodeRef}>{"\u00A0"}</span>;
 };

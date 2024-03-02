@@ -30,32 +30,53 @@ export default function Home() {
 						<div className="w-full px-16 bg-primary">
 							<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2 bg-secondary">
 								<MiddleEllipsis>
-									Works even when the grandparent container has padding and margin
+									Works even when the grandparent container has padding and
+									margin
 								</MiddleEllipsis>
 							</div>
 						</div>
 						<div className="flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2">
 							<MiddleEllipsis>
-								WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE DiFfErEnT.
+								WoRkS WiTh MiXeD CaSeS ToO, EvEn ThOuGh ChArAcTeR WiDtHs ArE
+								DiFfErEnT.
 							</MiddleEllipsis>
 						</div>
-						<span className={cn("flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2", robotoMono.className)}>
+						<div
+							className={cn(
+								"flex flex-col w-full relative whitespace-nowrap border-[2px] border-solid p-2",
+								robotoMono.className,
+							)}
+						>
 							<MiddleEllipsis>
 								Works with different font families too. Mono, Serifs, etc.
 							</MiddleEllipsis>
-						</span>
+						</div>
 						<div className="flex flex-col w-full relative">
-							<Badge variant='default'>
+							<Badge variant="default">
 								<MiddleEllipsis>
 									Badge inside text. Does this works. Does this works.
 								</MiddleEllipsis>
 							</Badge>
-							{/* <div className="w-max whitespace-nowrap border-[2px] border-solid p-2">
+						</div>
+						<div className="flex flex-col w-full relative">
+							<Badge variant="outline">
+								<Badge variant="destructive">
+									<Badge variant="secondary">
+										<Badge variant="default">
+											<MiddleEllipsis>
+												Works even when nested deep inside multiple elements
+												which all depend on their child for width.
+											</MiddleEllipsis>
+										</Badge>
+									</Badge>
+								</Badge>
+							</Badge>
+						</div>
+						{/* <div className="w-max whitespace-nowrap border-[2px] border-solid p-2">
 								<MiddleEllipsis>
 									Badge inside text. Does this works. Does this works.
 								</MiddleEllipsis>
 							</div> */}
-						</div>
 						{/* <Badge>
 							<MiddleEllipsis>
 									Works with different font families too. Mono, Serifs, etc.
