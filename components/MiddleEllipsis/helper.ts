@@ -14,6 +14,16 @@ const getCharacterWidth = (
 	return characterWidth * (fontSize / 16) * 1; // 2px for 'normal' letter spacing
 };
 
+const getStringWidth = (text: string, fontSize: number, fontFamily: string) => {
+	let width = 0;
+
+	for (const c of text) {
+		width += getCharacterWidth(c, fontSize, fontFamily);
+	}
+
+	return width;
+};
+
 const getElementProperties = (element: Element) => {
 	const style = window.getComputedStyle(element);
 
@@ -37,18 +47,9 @@ const getElementProperties = (element: Element) => {
 		totalWidth,
 		borderXWidth,
 		paddingXWidth,
+		marginXWidth,
 		innerWidth,
 	};
-};
-
-const getStringWidth = (text: string, fontSize: number, fontFamily: string) => {
-	let width = 0;
-
-	for (const c of text) {
-		width += getCharacterWidth(c, fontSize, fontFamily);
-	}
-
-	return width;
 };
 
 const getSiblingWidth = (element: Element): number => {
@@ -86,17 +87,49 @@ const getAvailableWidth = (element: HTMLElement) => {
 	return getElementProperties(offsetParentElement).innerWidth - takenWidth;
 };
 
+const getAvailableWidth2 = (
+	element: HTMLElement,
+	containerElement: HTMLElement,
+) => {
+	const containerAvailableWidth = getAvailableWidth(containerElement);
+
+	let takenWidth = 0;
+	let tempElement = element;
+
+	while (tempElement !== containerElement) {
+		const { paddingXWidth, borderXWidth, marginXWidth } =
+			getElementProperties(tempElement);
+		const w = paddingXWidth + borderXWidth + marginXWidth;
+		// console.log("LALIT ~ tempElement:", { tempElement, w });
+
+		takenWidth += w;
+
+		if (!tempElement.parentElement) break;
+		tempElement = tempElement.parentElement;
+	}
+
+	const availableWidth =
+		containerAvailableWidth / containerElement.childElementCount - takenWidth;
+
+	return availableWidth;
+};
+
 export const truncateText = ({
 	text,
 	element,
 	middleEllipsis,
+	containerElement,
 }: {
 	text: string;
 	element: HTMLElement;
 	middleEllipsis: string;
+	containerElement: HTMLElement | null;
 }) => {
 	const { fontSize, fontFamily } = getElementProperties(element);
-	const availableWidth = getAvailableWidth(element);
+	const availableWidth = containerElement
+		? getAvailableWidth2(element, containerElement)
+		: getAvailableWidth(element);
+	console.log("LALIT ~ availableWidth:", { availableWidth, containerElement });
 
 	const maxTextWidth = getStringWidth(text, fontSize, fontFamily);
 
@@ -143,10 +176,12 @@ export const observeResize = ({
 	element,
 	text,
 	middleEllipsis,
+	containerElement,
 }: {
-	text: string;
 	element: HTMLElement;
+	text: string;
 	middleEllipsis: string;
+	containerElement: HTMLElement | null;
 }) => {
 	if (!element.offsetParent) return () => {};
 
@@ -155,6 +190,7 @@ export const observeResize = ({
 			element,
 			text,
 			middleEllipsis,
+			containerElement,
 		});
 
 		// Directly update the text in the DOM

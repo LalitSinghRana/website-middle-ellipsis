@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
+import { ContainerContext } from "./MultipleMiddleEllipsis";
 import { observeResize } from "./helper";
 
 export const MiddleEllipsis = ({
@@ -6,6 +7,7 @@ export const MiddleEllipsis = ({
 	middleEllipsis = "...",
 	...rest
 }) => {
+	const containerElement = useContext(ContainerContext);
 	const nodeRef = useRef(null);
 
 	useEffect(() => {
@@ -16,10 +18,11 @@ export const MiddleEllipsis = ({
 			element,
 			text: children,
 			middleEllipsis,
+			containerElement,
 		});
 
 		return cleanup;
-	}, [children, middleEllipsis]);
+	}, [children, middleEllipsis, containerElement]);
 
 	return (
 		<span ref={nodeRef} {...rest}>
