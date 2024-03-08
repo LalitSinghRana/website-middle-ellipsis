@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
-import { ContainerContext } from "./MultipleMiddleEllipsis";
+import { ContainerContext } from "./Div";
 import { truncateOnResize } from "./truncate-text";
 
 type MiddleEllipsisProps = {
@@ -9,7 +9,7 @@ type MiddleEllipsisProps = {
 	[x: string]: unknown; // Rest of the props
 };
 
-export const MiddleEllipsis = ({
+export const Span = ({
 	children = "",
 	ellipsisSymbol,
 	lineLimit,

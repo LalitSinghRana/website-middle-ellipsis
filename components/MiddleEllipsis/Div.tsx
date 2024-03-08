@@ -9,7 +9,7 @@ export const ContainerContext = createContext<HTMLElement | undefined>(
 	undefined,
 );
 
-export const MultiEllipsisContainer = ({
+export const Div = ({
 	children, // Array of elements to be wrapped
 	...rest // Rest of the props
 }: MultiEllipsisContainerProps) => {
