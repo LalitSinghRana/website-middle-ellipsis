@@ -87,7 +87,7 @@ const getAvailableWidth = (element: HTMLElement) => {
 	return getElementProperties(offsetParentElement).innerWidth - takenWidth;
 };
 
-const getAvailableWidth2 = (
+const getAvailableWidthWhenSharing = (
 	element: HTMLElement,
 	containerElement: HTMLElement,
 ) => {
@@ -100,7 +100,6 @@ const getAvailableWidth2 = (
 		const { paddingXWidth, borderXWidth, marginXWidth } =
 			getElementProperties(tempElement);
 		const w = paddingXWidth + borderXWidth + marginXWidth;
-		// console.log("LALIT ~ tempElement:", { tempElement, w });
 
 		takenWidth += w;
 
@@ -115,21 +114,24 @@ const getAvailableWidth2 = (
 };
 
 export const truncateText = ({
-	text,
-	element,
-	middleEllipsis,
 	containerElement,
+	element,
+	text,
+	separator,
+	multiLines,
 }: {
-	text: string;
+	containerElement?: HTMLElement;
 	element: HTMLElement;
-	middleEllipsis: string;
-	containerElement: HTMLElement | null;
+	text: string;
+	separator: string;
+	multiLines: number;
 }) => {
 	const { fontSize, fontFamily } = getElementProperties(element);
-	const availableWidth = containerElement
-		? getAvailableWidth2(element, containerElement)
+	let availableWidth = containerElement
+		? getAvailableWidthWhenSharing(element, containerElement)
 		: getAvailableWidth(element);
-	console.log("LALIT ~ availableWidth:", { availableWidth, containerElement });
+
+	if (multiLines > 1) availableWidth *= multiLines - 0.3;
 
 	const maxTextWidth = getStringWidth(text, fontSize, fontFamily);
 
@@ -141,7 +143,7 @@ export const truncateText = ({
 	if (maxTextWidth <= availableWidth) return text;
 
 	const middleEllipsisWidth = getStringWidth(
-		middleEllipsis,
+		separator,
 		fontSize,
 		fontFamily,
 	);
@@ -169,28 +171,31 @@ export const truncateText = ({
 		secondHalf = text[textCharCount - i - 1] + secondHalf;
 	}
 
-	return firstHalf + middleEllipsis + secondHalf;
+	return firstHalf + separator + secondHalf;
 };
 
 export const observeResize = ({
+	containerElement,
 	element,
 	text,
-	middleEllipsis,
-	containerElement,
+	separator = "...",
+	multiLines = 1,
 }: {
+	containerElement?: HTMLElement;
 	element: HTMLElement;
 	text: string;
-	middleEllipsis: string;
-	containerElement: HTMLElement | null;
+	separator?: string;
+	multiLines?: number;
 }) => {
-	if (!element.offsetParent) return () => {};
+	if (!element.offsetParent || !text) return () => {};
 
 	const observer = new ResizeObserver(() => {
 		const truncatedText = truncateText({
+			containerElement,
 			element,
 			text,
-			middleEllipsis,
-			containerElement,
+			separator,
+			multiLines,
 		});
 
 		// Directly update the text in the DOM

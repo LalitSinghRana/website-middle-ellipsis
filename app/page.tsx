@@ -26,6 +26,12 @@ const Resizable = () => (
 				</MiddleEllipsis>
 			</div>
 			<Separator />
+			<div className="flex flex-col w-full relative whitespace-nowrap">
+				<MiddleEllipsis separator=" # # # ">
+					You can use any custom separator string
+				</MiddleEllipsis>
+			</div>
+			<Separator />
 			<div className="w-full px-8 bg-primary">
 				<div className="flex flex-col w-full relative whitespace-nowrap bg-secondary px-4">
 					<MiddleEllipsis>
@@ -79,7 +85,7 @@ const Resizable = () => (
 						<Badge variant="secondary">
 							<Badge>
 								<MiddleEllipsis>
-									Nested deep inside multiple divs
+									Nested deep inside multiple elements
 								</MiddleEllipsis>
 							</Badge>
 						</Badge>
@@ -101,6 +107,12 @@ const Resizable = () => (
 				</MultipleMiddleEllipsis>
 			</div>
 			<Separator />
+			<div className="flex flex-col w-full relative">
+				<MiddleEllipsis multiLines={3}>
+					This should wrap to 3 lines before it start getting truncated in the
+					middle
+				</MiddleEllipsis>
+			</div>
 		</div>
 	</ResizablePanel>
 );

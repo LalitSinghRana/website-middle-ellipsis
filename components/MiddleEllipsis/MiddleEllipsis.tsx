@@ -4,8 +4,13 @@ import { observeResize } from "./helper";
 
 export const MiddleEllipsis = ({
 	children = "",
-	middleEllipsis = "...",
+	separator,
+	multiLines,
 	...rest
+}: {
+	children: string;
+	separator?: string;
+	multiLines?: number;
 }) => {
 	const containerElement = useContext(ContainerContext);
 	const nodeRef = useRef(null);
@@ -15,14 +20,15 @@ export const MiddleEllipsis = ({
 		const element = nodeRef.current;
 
 		const cleanup = observeResize({
+			containerElement,
 			element,
 			text: children,
-			middleEllipsis,
-			containerElement,
+			separator,
+			multiLines,
 		});
 
 		return cleanup;
-	}, [children, middleEllipsis, containerElement]);
+	}, [children, separator, containerElement, multiLines]);
 
 	return (
 		<span ref={nodeRef} {...rest}>
