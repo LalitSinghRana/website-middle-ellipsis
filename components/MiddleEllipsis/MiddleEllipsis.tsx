@@ -1,34 +1,37 @@
-import React, { useEffect, useRef, useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { ContainerContext } from "./MultipleMiddleEllipsis";
-import { observeResize } from "./helper";
+import { truncateOnResize } from "./truncate-text";
+
+type MiddleEllipsisProps = {
+	children: string; // Text to be truncated
+	ellipsisSymbol?: string; // Custom ellipsisSymbol to be used in the middle
+	lineLimit?: number; // Number of lines to wrap before truncating starts
+	[x: string]: unknown; // Rest of the props
+};
 
 export const MiddleEllipsis = ({
 	children = "",
-	separator,
-	multiLines,
+	ellipsisSymbol,
+	lineLimit,
 	...rest
-}: {
-	children: string;
-	separator?: string;
-	multiLines?: number;
-}) => {
-	const containerElement = useContext(ContainerContext);
+}: MiddleEllipsisProps) => {
+	const boundingElement = useContext(ContainerContext);
 	const nodeRef = useRef(null);
 
 	useEffect(() => {
 		if (!nodeRef.current) return;
-		const element = nodeRef.current;
+		const targetElement = nodeRef.current;
 
-		const cleanup = observeResize({
-			containerElement,
-			element,
-			text: children,
-			separator,
-			multiLines,
+		const cleanup = truncateOnResize({
+			boundingElement,
+			targetElement,
+			originalText: children,
+			ellipsisSymbol,
+			lineLimit,
 		});
 
 		return cleanup;
-	}, [children, separator, containerElement, multiLines]);
+	}, [children, ellipsisSymbol, boundingElement, lineLimit]);
 
 	return (
 		<span ref={nodeRef} {...rest}>

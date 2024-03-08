@@ -1,4 +1,9 @@
-export const fontFamilyWidthMap = {
+import { FontFamilyMap } from "./generate-font-width-mapping";
+
+/*
+These sizes are calculated for font-size 16px.
+*/
+export const fontFamilyMap: FontFamilyMap = {
 	'"Times New Roman"': {
 		"0": 8,
 		"1": 7.703125,

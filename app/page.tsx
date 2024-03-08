@@ -3,7 +3,7 @@
 import { Roboto_Mono } from "next/font/google";
 import {
 	MiddleEllipsis,
-	MultipleMiddleEllipsis,
+	MultiEllipsisContainer,
 } from "@/components/MiddleEllipsis";
 import { ButtonLoading, ButtonIcon } from "@/components/ButtonLoading";
 import {
@@ -27,7 +27,7 @@ const Resizable = () => (
 			</div>
 			<Separator />
 			<div className="flex flex-col w-full relative whitespace-nowrap">
-				<MiddleEllipsis separator=" # # # ">
+				<MiddleEllipsis ellipsisSymbol=" - - - ">
 					You can use any custom separator string
 				</MiddleEllipsis>
 			</div>
@@ -94,7 +94,7 @@ const Resizable = () => (
 			</div>
 			<Separator />
 			<div className="flex w-full relative whitespace-nowrap">
-				<MultipleMiddleEllipsis>
+				<MultiEllipsisContainer>
 					<Badge className="mr-2">
 						<MiddleEllipsis>Multiple</MiddleEllipsis>
 					</Badge>
@@ -104,11 +104,11 @@ const Resizable = () => (
 					<Badge>
 						<MiddleEllipsis>Sharing</MiddleEllipsis>
 					</Badge>
-				</MultipleMiddleEllipsis>
+				</MultiEllipsisContainer>
 			</div>
 			<Separator />
 			<div className="flex flex-col w-full relative">
-				<MiddleEllipsis multiLines={3}>
+				<MiddleEllipsis lineLimit={3}>
 					This should wrap to 3 lines before it start getting truncated in the
 					middle
 				</MiddleEllipsis>

@@ -1,19 +1,33 @@
-import React, { useState, useEffect, useRef, createContext } from "react";
+import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 
-export const ContainerContext = createContext<HTMLElement | null>(null);
+type MultiEllipsisContainerProps = {
+	children: Iterable<ReactNode>;
+	[x: string]: unknown;
+};
 
-export const MultipleMiddleEllipsis = ({ children, ...rest }) => {
-	const nodeRef = useRef(null);
-	const [node, setNode] = useState(null);
+export const ContainerContext = createContext<HTMLElement | undefined>(
+	undefined,
+);
+
+export const MultiEllipsisContainer = ({
+	children, // Array of elements to be wrapped
+	...rest // Rest of the props
+}: MultiEllipsisContainerProps) => {
+	const containerRef = useRef(null);
+	const [boundingElement, setBoundingElement] = useState(undefined);
 
 	// Update node state when nodeRef.current changes
-	useEffect(() => setNode(nodeRef.current), []);
+	useEffect(() => {
+		if (!containerRef?.current) return;
+
+		setBoundingElement(containerRef?.current);
+	}, []);
 
 	return (
-		<ContainerContext.Provider value={node}>
+		<ContainerContext.Provider value={boundingElement}>
 			{/* Feel free to remove the inline style with whatever your project is
 			using. Tailwind, scss, etc. */}
-			<span ref={nodeRef} style={{ width: "100%" }} {...rest}>
+			<span ref={containerRef} style={{ width: "100%" }} {...rest}>
 				{children}
 			</span>
 		</ContainerContext.Provider>
