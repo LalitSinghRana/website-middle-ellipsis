@@ -20,6 +20,9 @@ dependencies:
   lucide-react:
     specifier: ^0.340.0
     version: 0.340.0(react@18.2.0)
+  middle-ellipsis:
+    specifier: link:C:/Users/lalit/Documents/text-middle-ellipsis
+    version: link:../text-middle-ellipsis
   next:
     specifier: 14.1.0
     version: 14.1.0(react-dom@18.2.0)(react@18.2.0)

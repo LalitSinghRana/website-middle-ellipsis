@@ -1,11 +1,7 @@
 import { Roboto_Mono } from "next/font/google";
-import MiddleEllipsis from "@/components/MiddleEllipsis";
+import MiddleEllipsis from "middle-ellipsis";
 import { ButtonLoading, ButtonIcon } from "@/components/ButtonLoading";
-import {
-	ResizableHandle,
-	ResizablePanel,
-	ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { ResizablePanel } from "@/components/ui/resizable";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
