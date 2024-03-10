@@ -1,5 +1,5 @@
 import { Roboto_Mono } from "next/font/google";
-import MiddleEllipsis from "middle-ellipsis";
+import MiddleEllipsis from "@lalit-rana/middle-ellipsis-react";
 import { ButtonLoading, ButtonIcon } from "@/components/ButtonLoading";
 import { ResizablePanel } from "@/components/ui/resizable";
 import { cn } from "@/lib/utils";

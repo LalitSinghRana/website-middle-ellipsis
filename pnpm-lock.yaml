@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lalit-rana/middle-ellipsis-react':
+    specifier: ^0.0.1
+    version: 0.0.1
   '@radix-ui/react-separator':
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.2.0)(react@18.2.0)
@@ -207,6 +210,12 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /@lalit-rana/middle-ellipsis-react@0.0.1:
+    resolution: {integrity: sha512-LkNp1oBQbo7ddvCkXLXof3bLhNUdGbOxxqp+ynapw9n35JP/tY1Wg5d+Qh4xopEm4i/SGzKDlD0mOO8knusuQg==}
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@next/env@14.1.0:
     resolution: {integrity: sha512-Py8zIo+02ht82brwwhTg36iogzFqGLPXlRGKQw5s+qP/kMNc4MAyDeEwBKDijk6zTIbegEgu8Qy7C1LboslQAw==}
