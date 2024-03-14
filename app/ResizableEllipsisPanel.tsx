@@ -18,7 +18,7 @@ export const ResizableEllipsisPanel = () => (
 			</div>
 			<Separator />
 			<div className="flex flex-col w-full relative whitespace-nowrap">
-				<MiddleEllipsis.Span ellipsisSymbol=" - - - ">
+				<MiddleEllipsis.Span ellipsisSymbol=" [ - - - - -] ">
 					You can use any custom separator string
 				</MiddleEllipsis.Span>
 			</div>
