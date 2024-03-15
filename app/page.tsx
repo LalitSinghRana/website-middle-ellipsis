@@ -8,7 +8,7 @@ import { ResizableEllipsisPanel } from "./ResizableEllipsisPanel";
 
 export default function Home() {
 	return (
-		<div className="flex w-screen h-screen justify-center items-center">
+		<div className="flex w-screen max-w-3xl h-screen justify-center items-center">
 			<ResizablePanelGroup direction="horizontal">
 				<ResizableEllipsisPanel />
 				<ResizableHandle withHandle />
