@@ -13,27 +13,27 @@ export const ResizableEllipsisPanel = () => (
 		<div className="flex flex-col gap-4 w-full h-full p-4">
 			<div className="flex flex-col w-full relative whitespace-nowrap">
 				<MiddleEllipsis.Span>
-					Ellipsis text in the middle automatically when component resize
+					Ellipsis text in center automatically when element resize
 				</MiddleEllipsis.Span>
 			</div>
 			<Separator />
 			<div className="flex flex-col w-full relative whitespace-nowrap">
-				<MiddleEllipsis.Span ellipsisSymbol=" [ - - - - -] ">
-					You can use any custom separator string
+				<MiddleEllipsis.Span ellipsisSymbol=" [ - - - - - ] ">
+					You can pass any custom separator string of your choice
 				</MiddleEllipsis.Span>
 			</div>
 			<Separator />
-			<div className="w-full px-8 bg-primary">
-				<div className="flex flex-col w-full relative whitespace-nowrap bg-secondary px-4">
+			<div className="w-full px-8 bg-secondary">
+				<div className="flex flex-col w-full px-4 my-2 relative whitespace-nowrap bg-primary text-primary-foreground font-semibold">
 					<MiddleEllipsis.Span>
-						When the parent divs have padding and margin
+						Account for parent div having padding and margin
 					</MiddleEllipsis.Span>
 				</div>
 			</div>
 			<Separator />
 			<div className="flex flex-col w-full relative whitespace-nowrap">
 				<MiddleEllipsis.Span>
-					MiXeD CaSe EvEn ThOuGh ChArAcTeR WiDtHs ArE DiFfErEnT
+					MiXeD CaSe, EvEn ThOuGh ChArAcTeR WiDtHs ArE vAsTlIy DiFfErEnT
 				</MiddleEllipsis.Span>
 			</div>
 			<Separator />
@@ -57,7 +57,7 @@ export const ResizableEllipsisPanel = () => (
 			<div className="flex flex-col w-full relative">
 				<Badge>
 					<MiddleEllipsis.Span>
-						Parent's width depend on the child for width
+						Parent's width depend on the child, no issue.
 					</MiddleEllipsis.Span>
 				</Badge>
 			</div>
@@ -78,7 +78,7 @@ export const ResizableEllipsisPanel = () => (
 						<Badge variant="secondary">
 							<Badge>
 								<MiddleEllipsis.Span>
-									Nested deep inside multiple elements
+									Deep inside multiple elements without widths
 								</MiddleEllipsis.Span>
 							</Badge>
 						</Badge>
@@ -102,8 +102,8 @@ export const ResizableEllipsisPanel = () => (
 			<Separator />
 			<div className="flex flex-col w-full relative">
 				<MiddleEllipsis.Span lineLimit={3}>
-					This should wrap to 3 lines before it start getting truncated in the
-					middle
+					Want text to wrap to [x] number of lines before truncation start. Got
+					that covered too.
 				</MiddleEllipsis.Span>
 			</div>
 		</div>
