@@ -30,7 +30,10 @@ const truncateText = ({
 		? getAvailableWidthWhenSharing(targetElement, boundingElement)
 		: getAvailableWidth(targetElement);
 
-	if (lineLimit > 1) availableWidth *= lineLimit - 0.3;
+	if (lineLimit > 1) {
+		availableWidth =
+			availableWidth * lineLimit - getCharacterWidth("W", fontFamily, fontSize);
+	}
 
 	const maxTextWidth = getStringWidth(originalText, fontSize, fontFamily);
 
@@ -77,8 +80,8 @@ export const truncateOnResize = ({
 	boundingElement,
 	targetElement,
 	originalText,
-	ellipsisSymbol = "...",
-	lineLimit = 1,
+	ellipsisSymbol,
+	lineLimit,
 }: TruncateOnResizeArgs) => {
 	if (!targetElement.offsetParent || !originalText) return () => {};
 
@@ -86,9 +89,11 @@ export const truncateOnResize = ({
 		const truncatedText = truncateText({
 			boundingElement,
 			targetElement,
-			originalText,
-			ellipsisSymbol,
-			lineLimit,
+			/* Below checks provide run-time guarantees */
+			originalText: String(originalText),
+			ellipsisSymbol:
+				typeof ellipsisSymbol === "string" ? ellipsisSymbol : "...",
+			lineLimit: typeof lineLimit === "number" ? lineLimit : 1,
 		});
 
 		// Directly update the originalText in the DOM
