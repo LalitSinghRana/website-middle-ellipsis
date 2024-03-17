@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { ContainerContext } from "./Div";
 import { truncateOnResize } from "./truncate-text-utils";
+import { ContainerContext } from "./Div";
 
 type MiddleEllipsisProps = {
 	children: string; // Text to be truncated
@@ -9,12 +9,7 @@ type MiddleEllipsisProps = {
 	[x: string]: unknown; // Rest of the props
 };
 
-export const Span = ({
-	children = "",
-	ellipsisSymbol,
-	lineLimit,
-	...rest
-}: MiddleEllipsisProps) => {
+export const Span = ({ children = "", ellipsisSymbol, lineLimit, ...rest }: MiddleEllipsisProps) => {
 	const boundingElement = useContext(ContainerContext);
 	const nodeRef = useRef(null);
 
