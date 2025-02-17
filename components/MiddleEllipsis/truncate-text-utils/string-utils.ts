@@ -11,6 +11,7 @@ export const getCharacterWidth = (character: string, fontFamily: string, fontSiz
 };
 
 export const getStringWidth = (originalText: string, fontSize: number, fontFamily: string) => {
+	console.log('ZORO ~ getStringWidth ~ fontFamily:', fontFamily);
 	let width = 0;
 
 	for (const c of originalText) {
