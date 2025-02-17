@@ -1,4 +1,12 @@
-const getCharacterWidth = (character, fontFamily) => {
+export type CharacterWidthMap = {
+	[key: string]: number;
+};
+
+export type FontFamilyMap = {
+	[key: string]: CharacterWidthMap;
+};
+
+const getCharacterWidth = (character: string, fontFamily: string) => {
 	const context = document.createElement("canvas").getContext("2d");
 	if (!context) throw new Error("Browser failed to create a 2D rendering");
 
@@ -9,8 +17,8 @@ const getCharacterWidth = (character, fontFamily) => {
 	return metrics.width / 2;
 };
 
-const generateCharacterWidthMapping = (fontFamily) => {
-	const fontWidthMapping = {};
+const generateCharacterWidthMapping = (fontFamily: string) => {
+	const fontWidthMapping: CharacterWidthMap = {};
 	/*
     The first 32 characters in the ASCII-table are unprintable control codes and are not used in web typography.
     ASCII characters from 32 to 127 are printable characters. We will generate width mapping for only these characters.
@@ -24,7 +32,7 @@ const generateCharacterWidthMapping = (fontFamily) => {
 };
 
 const generateFontWidthMapping = () => {
-	const fontFamilies = new Set();
+	const fontFamilies = new Set<string>();
 
 	for (const element of document.querySelectorAll("*")) {
 		// biome-ignore lint/complexity/noForEach: <single and simple iteration>
@@ -35,10 +43,10 @@ const generateFontWidthMapping = () => {
 			.forEach((fontFamily) => fontFamilies.add(fontFamily));
 	}
 
-	const fontsMap = {};
+	const fontsMap: FontFamilyMap = {};
 
-	for (const fontFamily of fontFamilies) {
-		// if (fontFamily[0] === '"' || fontFamily[0] === "'") fontFamily = fontFamily.slice(1, -1);
+	for (let fontFamily of fontFamilies) {
+		if (fontFamily[0] === '"' || fontFamily[0] === "'") fontFamily = fontFamily.slice(1, -1);
 		fontsMap[fontFamily] = generateCharacterWidthMapping(fontFamily);
 	}
 
